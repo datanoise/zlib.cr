@@ -32,11 +32,7 @@ File.open("data.txt", "r") do |src|
   File.open("data.txt.z", "w") do |dst|
     deflate = Zlib::Deflate.new(dst)
 
-    buffer :: UInt8[1024]
-    while (len = src.read(buffer.to_slice)) > 0
-      deflate << buffer.to_slice[0,len.to_i32]
-    end
-
+    IO.copy(src, deflate)
     deflate.finish
   end
 end
@@ -45,13 +41,10 @@ end
 and inflating it back:
 
 ```crystal
-File.open("data.txt.z", "w") do |src|
+File.open("data.txt.z", "r") do |src|
   inflate = Zlib::Inflate.new(STDOUT)
 
-  buffer :: UInt8[1024]
-  while (len = src.read(buffer.to_slice)) > 0
-    inflate << buffer.to_slice[0,len.to_i32]
-  end
+  IO.copy(src, inflate)
 end
 ```
 

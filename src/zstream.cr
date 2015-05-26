@@ -67,6 +67,10 @@ abstract class Zlib::ZStream
     finished?
   end
 
+  def write(data: Slice(UInt8), length)
+    self << data[0, length]
+  end
+
   def close
     return if closed?
     reset if @state.includes?(State::InStream)
