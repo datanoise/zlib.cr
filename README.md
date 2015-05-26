@@ -20,8 +20,8 @@ Provide a simple API to handle Zlib Deflate/Inflate stream and GZFile API.
 An example of using GZFile API:
 
 ```crystal
-Zlib::GZFile.new("output.gz", "w") do |f|
-f.puts "hello world!"
+Zlib::GZFile.open("output.gz", "w") do |f|
+  f.puts "hello world!"
 end
 ```
 
