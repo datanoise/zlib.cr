@@ -10,30 +10,30 @@ module Zlib
 
   def self.adler32(data, adler)
     slice = data.to_slice
-    LibZ.adler32(adler.to_u64, slice, slice.length.to_u32)
+    LibZ.adler32(LibC::ULong.cast(adler), slice, LibC::UInt.cast(slice.length))
   end
 
   def self.adler32(data)
-    adler = LibZ.adler32(0_u64, nil, 0_u32)
+    adler = LibZ.adler32(LibC::ULong.cast(0), nil, LibC::UInt.cast(0))
     adler32(data, adler)
   end
 
   def self.adler32_combine(adler1, adler2, len)
-    LibZ.adler32_combine(adler1.to_u64, adler2.to_u64, len.to_i64)
+    LibZ.adler32_combine(LibC::ULong.cast(adler1), LibC::ULong.cast(adler2), LibC::Long.cast(len))
   end
 
   def self.crc32(data, crc)
     slice = data.to_slice
-    LibZ.crc32(crc.to_u64, slice, slice.length.to_u32)
+    LibZ.crc32(LibC::ULong.cast(crc), slice, LibC::UInt.cast(slice.length))
   end
 
   def self.crc32(data)
-    crc = LibZ.crc32(0_u64, nil, 0_u32)
+    crc = LibZ.crc32(LibC::ULong.cast(0), nil, LibC::UInt.cast(0))
     crc32(data, crc)
   end
 
   def self.crc32_combine(crc1, crc2, len)
-    LibZ.crc32_combine(crc1.to_u64, crc2.to_u64, len.to_i64)
+    LibZ.crc32_combine(LibC::ULong.cast(crc1), LibC::ULong.cast(crc2), LibC::Long.cast(len))
   end
 
   class ZlibError < Exception

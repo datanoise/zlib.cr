@@ -1,1 +1,37 @@
-language: crystal
+language: c
+sudo: required
+services:
+  - docker
+matrix:
+  include:
+    - env: ARCH=i386 ARCH_CMD=linux32
+      os: linux
+    - env: ARCH=x86_64 ARCH_CMD=linux64
+      os: linux
+    - os: osx
+before_install: |
+  case $TRAVIS_OS_NAME in
+    linux)
+      docker pull jhass/crystal-build-$ARCH
+      ;;
+    osx)
+      brew update
+      brew tap manastech/crystal
+      ;;
+  esac
+install: |
+  case $TRAVIS_OS_NAME in
+    osx)
+      brew install crystal-lang
+      ;;
+  esac
+script: |
+  set -e
+  case $TRAVIS_OS_NAME in
+    linux)
+      docker run -v $(pwd):/mnt -w /mnt jhass/crystal-build-$ARCH $ARCH_CMD crystal spec
+      ;;
+    osx)
+      crystal spec
+      ;;
+  esac

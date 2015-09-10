@@ -1,26 +1,37 @@
 @[Link("z")]
 lib LibZ
-  fun zlibVersion() : UInt8*
-  fun adler32(adler: UInt64, buf: UInt8*, len: UInt32): UInt64
-  fun adler32_combine(adler1: UInt64, adler2: UInt64, len: Int64) : UInt64
-  fun crc32(crc: UInt64, buf: UInt8*, len: UInt32) : UInt64
-  fun crc32_combine(crc1: UInt64, crc2: UInt64, len: Int64) : UInt64
+  alias Char = LibC::Char
+  alias Int = LibC::Int
+  alias UInt = LibC::UInt
+  alias Long = LibC::Long
+  alias ULong = LibC::ULong
+  alias SizeT = LibC::SizeT
+  alias Double = LibC::Double
+  alias BitcntT = ULong
+
+  alias Bytef = UInt8
+
+  fun zlibVersion() : Char*
+  fun adler32(adler: ULong, buf: Bytef*, len: UInt): ULong
+  fun adler32_combine(adler1: ULong, adler2: ULong, len: Long) : ULong
+  fun crc32(crc: ULong, buf: Bytef*, len: UInt) : ULong
+  fun crc32_combine(crc1: ULong, crc2: ULong, len: Long) : ULong
 
   struct ZStream
-    next_in: UInt8*
-    avail_in: UInt32
-    total_in: UInt64
-    next_out: UInt8*
-    avail_out: UInt32
-    total_out: UInt64
-    msg: UInt8*
+    next_in: Bytef*
+    avail_in: UInt
+    total_in: ULong
+    next_out: Bytef*
+    avail_out: UInt
+    total_out: ULong
+    msg: Char*
     state: Void*
     zalloc: Void*
     zfree: Void*
     opaque: Void*
-    data_type: Int32
-    adler: UInt64
-    reserved: UInt64
+    data_type: Int
+    adler: Long
+    reserved: Long
   end
 
   struct GZHeader
