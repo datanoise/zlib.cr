@@ -91,14 +91,14 @@ class Zlib::GZFile
     LibZ.gzsetparams(@handle, level, strategy)
   end
 
-  def read(slice: Slice(UInt8), length)
-    LibZ.gzread(@handle, slice.pointer(length), length.to_u32).tap do |ret|
+  def read(slice: Slice(UInt8))
+    LibZ.gzread(@handle, slice, slice.length.to_u32).tap do |ret|
       check_error(ret)
     end
   end
 
-  def write(slice: Slice(UInt8), length)
-    LibZ.gzwrite(@handle, slice.pointer(length), length.to_u32).tap do |ret|
+  def write(slice: Slice(UInt8))
+    LibZ.gzwrite(@handle, slice, slice.length.to_u32).tap do |ret|
       check_error(ret)
     end
   end
