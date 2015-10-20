@@ -48,15 +48,15 @@ module Zlib
 
     private def run(data, flush)
       if data
-        @stream.avail_in = data.length.to_u32
-        @stream.next_in = data.pointer(data.length)
+        @stream.avail_in = data.size.to_u32
+        @stream.next_in = data.pointer(data.size)
       end
       loop do
-        @stream.avail_out = @buf.length.to_u32
-        @stream.next_out = @buf.pointer(@buf.length)
+        @stream.avail_out = @buf.size.to_u32
+        @stream.next_out = @buf.pointer(@buf.size)
         ret = LibZ.deflate(self, flush)
         check_error(ret)
-        @callback.call(@buf[0, @buf.length - @stream.avail_out])
+        @callback.call(@buf[0, @buf.size - @stream.avail_out])
         break unless @stream.avail_out == 0
       end
     ensure
@@ -67,7 +67,7 @@ module Zlib
 
   def dictionary=(dict)
     dict = dict.to_slice
-    ret = LibZ.deflateSetDictionary(self, dict, dict.length.to_u32)
+    ret = LibZ.deflateSetDictionary(self, dict, dict.size.to_u32)
     check_error(ret)
   end
 

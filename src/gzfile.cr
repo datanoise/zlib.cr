@@ -1,7 +1,7 @@
 class Zlib::GZFile
   include IO
 
-  def initialize(@handle: LibZ::GZFile)
+  def initialize(@handle : LibZ::GZFile)
     raise ZlibError.new "invalid handle" unless @handle
     @closed = false
   end
@@ -30,7 +30,7 @@ class Zlib::GZFile
   end
 
   protected def open_flag(mode)
-    if mode.length == 0
+    if mode.size == 0
       raise "invalid access mode #{mode}"
     end
 
@@ -49,7 +49,7 @@ class Zlib::GZFile
       raise "invalid access mode #{mode}"
     end
 
-    case mode.length
+    case mode.size
     when 1
       # Nothing
     when 2
@@ -91,14 +91,14 @@ class Zlib::GZFile
     LibZ.gzsetparams(@handle, level, strategy)
   end
 
-  def read(slice: Slice(UInt8))
-    LibZ.gzread(@handle, slice, slice.length.to_u32).tap do |ret|
+  def read(slice : Slice(UInt8))
+    LibZ.gzread(@handle, slice, slice.size.to_u32).tap do |ret|
       check_error(ret)
     end
   end
 
-  def write(slice: Slice(UInt8))
-    LibZ.gzwrite(@handle, slice, slice.length.to_u32).tap do |ret|
+  def write(slice : Slice(UInt8))
+    LibZ.gzwrite(@handle, slice, slice.size.to_u32).tap do |ret|
       check_error(ret)
     end
   end
@@ -111,7 +111,7 @@ class Zlib::GZFile
   SEEK_CUR = LibC::SEEK_CUR
   SEEK_END = LibC::SEEK_END
 
-  def seek(offset: LibC::SizeT, whince = SEEK_CUR)
+  def seek(offset : LibC::SizeT, whince = SEEK_CUR)
     LibZ.gzseek(@handle, offset, whince)
   end
 

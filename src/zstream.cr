@@ -31,8 +31,8 @@ abstract class Zlib::ZStream
 
   protected def reset_state
     @state = State::Ready
-    @stream.next_out = @buf.pointer(@buf.length)
-    @stream.avail_out = @buf.length.to_u32
+    @stream.next_out = @buf.pointer(@buf.size)
+    @stream.avail_out = @buf.size.to_u32
   end
 
   def avail_in
@@ -67,8 +67,8 @@ abstract class Zlib::ZStream
     finished?
   end
 
-  def write(data: Slice(UInt8), length)
-    self << data[0, length]
+  def write(data : Slice(UInt8))
+    self << data
   end
 
   def close
