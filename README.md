@@ -8,7 +8,7 @@ This library provides binding for ZLib library.
 
 # Requirements
 
-- Crystal language version 0.7.1 and higher.
+- Crystal language version 0.9 and higher.
 - zlib version 1.2.5 or higher
 
 # Goal
